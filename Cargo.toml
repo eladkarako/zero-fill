@@ -1,0 +1,39 @@
+[package]
+name = "zero-fill"
+version = "26.9.26"
+edition = "2024"
+authors = ["Elad Karako <eladkarako@gmail.com>"]
+description = "safely allocate and release filesystem space on Linux using fallocate"
+license = "MIT"
+repository = "https://github.com/eladkarako/zero-fill"
+homepage = "https://github.com/eladkarako/zero-fill"
+keywords = ["linux", "fallocate", "filesystem", "storage", "cli"]
+categories = ["command-line-utilities", "os"]
+readme = "README.md"
+
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+indicatif = "0.17"
+libc = "0.2"
+tempfile = "3"
+tokio = { version = "1", features = [
+    "macros",
+    "rt-multi-thread",
+    "sync",
+] }
+
+
+[package.metadata]
+supported-platforms = ["Linux", "Android"]
+
+
+[profile.release]
+opt-level = "z"          # “z” = maximum size reduction (equivalent to -C opt-level=s)
+lto = true               # Link‑time optimisation
+codegen-units = 1        # Better optimisation (single codegen unit)
+panic = "abort"          # Remove unwinding tables
+debug = false            # No debug info
+strip = true             # Strip symbols (requires rustc 1.56+)
+rpath = false            # Don't embed runtime library paths
+incremental = false      # Disable incremental compilation (cleaner builds)
