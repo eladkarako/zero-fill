@@ -1,6 +1,6 @@
 <h3><img width="48" src="resources/app.png" /> <code>zero-fill</code></h3>
 
-## safely allocate and release filesystem space on Linux using `fallocate`
+## safely allocate and release filesystem space on Linux and Android using `fallocate`
 
 
 <hr/>
