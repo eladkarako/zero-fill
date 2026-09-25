@@ -68,7 +68,7 @@ sudo sh -c '
   dd if=/dev/zero of=zero.fill bs=1M status=progress
   sync
 '
-`
+```
 
 This:
 - Shows progress.
