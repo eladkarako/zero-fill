@@ -15,7 +15,7 @@ diskpart
 list vdisk
 (There are no virtual disks to show.)
 
-select vdisk file="D:\foo\ext4.vhdx"
+select vdisk file="E:\wsl\ext4.vhdx"
 (DiskPart successfully selected the virtual disk file.)
 
 compact vdisk
@@ -23,7 +23,7 @@ compact vdisk
 
 exit
 
-wsl --export Ubuntu "D:\foo\202609262020_ubuntu.tar"
+wsl --export Ubuntu "E:\wsl\202609262020_ubuntu.tar"
 
 ```
 
@@ -215,6 +215,10 @@ Responsible for the allocation algorithm:
 cargo test
 cargo build --release
 ```
+
+do not run from `/mnt/` (Windows folders), download the binary (unzip) and copy it to your profile (`~`),  
+use `sudo chmod u+x ./zero-fill`, then just `sudo ./zero-fill`, do this after you clean-up your (virtual) machine.  
+
 
 ### Preview the operation without allocating:
 
