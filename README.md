@@ -361,6 +361,22 @@ cargo build  --release  --target   x86_64-unknown-linux-musl
 
 </details>
 
+<hr/>
+<hr/>
+
+### Note.  
+
+this is a free, open-source program written with assist of GitHub's Copilot,  
+Claude Haiku 4.5, and JetBrains RustRover IDE with Community license.
+
+feel free to suggest fixes, open a bug, test.
+
+<a href="https://paypal.me/31adkarak0" target="_blank" rel="noopener noreferrer">
+  <img src="https://img.shields.io/badge/Sponsor-Donate-blue?logo=paypal&style=flat" alt="Donate via PayPal">
+  <br />
+  <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="PayPal Donation">
+</a>
+
 <br/>
 <hr/>
 <br/>
