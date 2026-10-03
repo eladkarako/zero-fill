@@ -1,2 +1,5 @@
+26.10.3
+* updating project structure to match most of new project (including - but disabled, windows components).
+
 26.9.26
 + initial.
