@@ -48,6 +48,21 @@
 note: make file executable before running it (`sudo`) `chmod +x ./zero_fill` or (`sudo`) `chmod u+x ./zero_fill`,  
 a good place to put it is directly under `~/` .  
 
+
+1. `cd ~ && wget "https://github.com/eladkarako/zero_fill/releases/latest/download/x86_64-unknown-linux-gnu.zip" && unzip x86_64-unknown-linux-gnu.zip && rm x86_64-unknown-linux-gnu.zip`
+2. `sudo chmod +x ./zero_fill`
+3. `zero_fill`
+
+you don't actually need `sudo` to run it, as the default target for the temp. file is the current folder.  
+on platforms such as embedded linux you might not need `sudo` for `chmod`.  
+
+the action itself is surprisingly fast.
+
+
+<img src="resources/logos/screenshot1_run.gif" />  
+
+
+
 <hr/>
 
 I wrote this to mostly improve storage of vm and lite-vm vmdk virtual-hd for backups,  
