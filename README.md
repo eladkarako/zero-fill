@@ -44,6 +44,10 @@
 - [changelog.txt](https://github.com/eladkarako/zero_fill/releases/latest/download/changelog.txt)
 
 <hr/>
+
+note: make file executable before running it (`sudo`) `chmod +x ./zero_fill` or (`sudo`) `chmod u+x ./zero_fill`,  
+a good place to put it is directly under `~/` .  
+
 <hr/>
 
 I wrote this to mostly improve storage of vm and lite-vm vmdk virtual-hd for backups,  
