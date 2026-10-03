@@ -1,4 +1,4 @@
-<h3><img width="48" src="resources/app.png" /> <code>zero_fill</code></h3>
+<h3><img width="48" src="resources/logos/app.png" /> <code>zero_fill</code></h3>
 
 ## safely allocate and release filesystem space on Linux and Android using `fallocate`
 
