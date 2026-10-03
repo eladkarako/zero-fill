@@ -11,7 +11,10 @@ pub struct ProgressEvent {
     pub free_space: u64,
 }
 
-pub fn run(config: Config, progress_sender: mpsc::Sender<ProgressEvent>) -> io::Result<u64> {
+pub fn run(
+    config: Config,
+    progress_sender: mpsc::Sender<ProgressEvent>,
+) -> io::Result<u64> {
     let initial_free = filesystem::available_space(&config.path)?;
 
     if initial_free <= config.reserve {
@@ -27,7 +30,12 @@ pub fn run(config: Config, progress_sender: mpsc::Sender<ProgressEvent>) -> io::
     let file: &File = temporary_file.as_file();
     let mut allocated = 0u64;
 
-    let allocation_result = allocate_loop(file, &config, &progress_sender, &mut allocated);
+    let allocation_result = allocate_loop(
+        file,
+        &config,
+        &progress_sender,
+        &mut allocated,
+    );
 
     match allocation_result {
         Ok(()) => {
@@ -36,7 +44,10 @@ pub fn run(config: Config, progress_sender: mpsc::Sender<ProgressEvent>) -> io::
             if config.keep_file {
                 let path = temporary_file.into_temp_path().keep()?;
 
-                println!("Keeping temporary file: {}", path.display());
+                println!(
+                    "Keeping temporary file: {}",
+                    path.display()
+                );
             } else {
                 temporary_file.close()?;
             }
@@ -76,7 +87,10 @@ fn allocate_loop(
             break;
         }
 
-        let amount = config.chunk_size.min(reserve_limited).min(max_remaining);
+        let amount = config
+            .chunk_size
+            .min(reserve_limited)
+            .min(max_remaining);
 
         if amount == 0 {
             break;
@@ -86,15 +100,21 @@ fn allocate_loop(
             Ok(()) => {
                 *allocated = allocated
                     .checked_add(amount)
-                    .ok_or_else(|| io::Error::other("allocation size overflow"))?;
+                    .ok_or_else(|| {
+                        io::Error::other("allocation size overflow")
+                    })?;
 
                 progress_sender
                     .blocking_send(ProgressEvent {
                         allocated: *allocated,
-                        free_space: free_space.saturating_sub(amount),
+                        free_space: free_space
+                            .saturating_sub(amount),
                     })
                     .map_err(|_| {
-                        io::Error::new(io::ErrorKind::BrokenPipe, "progress receiver was closed")
+                        io::Error::new(
+                            io::ErrorKind::BrokenPipe,
+                            "progress receiver was closed",
+                        )
                     })?;
             }
 

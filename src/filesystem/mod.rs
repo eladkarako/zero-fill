@@ -1,12 +1,14 @@
 use std::{fs::File, io, os::fd::AsRawFd, path::Path};
 
 pub fn available_space(path: &Path) -> io::Result<u64> {
-    let path = std::ffi::CString::new(path.to_string_lossy().as_bytes()).map_err(|_| {
-        io::Error::new(
-            io::ErrorKind::InvalidInput,
-            "path contains an embedded NUL byte",
-        )
-    })?;
+    let path =
+        std::ffi::CString::new(path.to_string_lossy().as_bytes())
+            .map_err(|_| {
+                io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "path contains an embedded NUL byte",
+                )
+            })?;
 
     let mut stats = unsafe { std::mem::zeroed::<libc::statvfs>() };
 
@@ -21,7 +23,11 @@ pub fn available_space(path: &Path) -> io::Result<u64> {
         .ok_or_else(|| io::Error::other("filesystem size overflow"))
 }
 
-pub fn fallocate(file: &File, offset: u64, length: u64) -> io::Result<()> {
+pub fn fallocate(
+    file: &File,
+    offset: u64,
+    length: u64,
+) -> io::Result<()> {
     let result = unsafe {
         libc::fallocate(
             file.as_raw_fd(),

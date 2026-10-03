@@ -1,4 +1,7 @@
-#![cfg_attr(not(any(target_os = "linux", target_os = "android")), allow(dead_code))]
+#![cfg_attr(
+    not(any(target_os = "linux", target_os = "android")),
+    allow(dead_code)
+)]
 
 #[cfg(not(any(target_os = "linux", target_os = "android")))]
 compile_error!("This program only supports Linux and Android");
@@ -23,7 +26,10 @@ async fn main() -> io::Result<()> {
 
         println!("Path: {}", config.path.display());
         println!("Available: {}", indicatif::HumanBytes(available));
-        println!("Reserve: {}", indicatif::HumanBytes(config.reserve));
+        println!(
+            "Reserve: {}",
+            indicatif::HumanBytes(config.reserve)
+        );
 
         if available > config.reserve {
             println!(
@@ -72,20 +78,28 @@ async fn main() -> io::Result<()> {
     let (sender, mut receiver) = mpsc::channel::<ProgressEvent>(16);
     let worker_config = config.clone();
 
-    let worker = tokio::task::spawn_blocking(move || allocator::run(worker_config, sender));
+    let worker = tokio::task::spawn_blocking(move || {
+        allocator::run(worker_config, sender)
+    });
 
     while let Some(event) = receiver.recv().await {
         if let Some(bar) = &progress_bar {
             bar.set_position(event.allocated);
-            bar.set_message(format!("{} free", indicatif::HumanBytes(event.free_space)));
+            bar.set_message(format!(
+                "{} free",
+                indicatif::HumanBytes(event.free_space)
+            ));
         } else {
-            println!("allocated={} free={}", event.allocated, event.free_space);
+            println!(
+                "allocated={} free={}",
+                event.allocated, event.free_space
+            );
         }
     }
 
-    let allocated = worker
-        .await
-        .map_err(|error| io::Error::other(format!("worker failed: {error}")))??;
+    let allocated = worker.await.map_err(|error| {
+        io::Error::other(format!("worker failed: {error}"))
+    })??;
 
     if let Some(bar) = progress_bar {
         bar.finish_with_message("temporary file removed");

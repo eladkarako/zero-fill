@@ -20,7 +20,7 @@ pub struct Config {
 
 #[derive(Parser, Debug)]
 #[command(
-    name = "zero-fill",
+    name = "zero_fill",
     about = "Safely allocate filesystem space using Linux fallocate"
 )]
 struct Arguments {
@@ -41,7 +41,7 @@ struct Arguments {
     max_size: Option<String>,
 
     /// Temporary-file prefix
-    #[arg(long, default_value = ".zero-fill-")]
+    #[arg(long, default_value = ".zero_fill-")]
     prefix: String,
 
     /// Disable the terminal progress bar
@@ -80,7 +80,8 @@ impl Config {
             ));
         }
 
-        let max_size = args.max_size.as_deref().map(parse_size).transpose()?;
+        let max_size =
+            args.max_size.as_deref().map(parse_size).transpose()?;
 
         if max_size == Some(0) {
             return Err(io::Error::new(

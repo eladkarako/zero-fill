@@ -1,39 +1,38 @@
 [package]
-name = "zero-fill"
-version = "26.9.26"
-edition = "2024"
 authors = ["Elad Karako <eladkarako@gmail.com>"]
-description = "safely allocate and release filesystem space on Linux using fallocate"
-license = "MIT"
-repository = "https://github.com/eladkarako/zero-fill"
-homepage = "https://github.com/eladkarako/zero-fill"
-keywords = ["linux", "fallocate", "filesystem", "storage", "cli"]
 categories = ["command-line-utilities", "os"]
-readme = "README.md"
-
+description = "safely allocate and release filesystem space on Linux using fallocate"
+documentation = "https://github.com/eladkarako/zero_fill#readme"
+edition = "2024"                                                   
+homepage = "https://github.com/eladkarako/zero_fill"               
+keywords = ["linux", "fallocate", "filesystem", "storage", "cli"]  
+license = "MIT"                                                    
+name = "zero_fill"                                                 
+readme = "README.md"                                               
+repository = "https://github.com/eladkarako/zero_fill"             
+rust-version = "1.93.0"                                            
+version = "26.10.3"                                                
 
 [dependencies]
-clap = { version = "4", features = ["derive"] }
-indicatif = "0.17"
-libc = "0.2"
-tempfile = "3"
-tokio = { version = "1", features = [
-    "macros",
-    "rt-multi-thread",
-    "sync",
-] }
-
+clap = { version = "4.6.7", features = ["derive"] }                               # CLI argument parsing with derive macros
+indicatif = "0.18.6"                                                              # Progress bars and spinners for user feedback
+libc = "0.2.190"                                                                  # FFI bindings to C library (for fallocate syscalls)
+tempfile = "3.27.0"                                                               # Temporary file/directory creation
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread", "sync"] }  # Async runtime with multi-threaded support
 
 [package.metadata]
-supported-platforms = ["Linux", "Android"]
+supported-platforms = ["Linux", "Android"]                                        # Platforms this crate officially supports
 
+[build-dependencies]
+toml = "1.1.6"                                                      # TOML parsing for build scripts
+winres = "0.1.12"                                                   # Windows resource file handling (exe metadata, icons, version info)
 
 [profile.release]
-opt-level = "z"          # “z” = maximum size reduction (equivalent to -C opt-level=s)
-lto = true               # Link‑time optimisation
-codegen-units = 1        # Better optimisation (single codegen unit)
-panic = "abort"          # Remove unwinding tables
-debug = false            # No debug info
-strip = true             # Strip symbols (requires rustc 1.56+)
-rpath = false            # Don't embed runtime library paths
-incremental = false      # Disable incremental compilation (cleaner builds)
+codegen-units = 1                                                   # Single unit for better optimization and smaller binary size
+debug = false                                                       # Strip debug symbols for smaller binary
+incremental = false                                                 # Disable incremental compilation for cleaner builds
+lto = true                                                          # Link-time optimization for better performance
+opt-level = "z"                                                     # Maximum optimization for binary size (prioritize size over speed)
+panic = "abort"                                                     # Replace unwinding with abort (smaller binary, faster panics)
+rpath = false                                                       # Don't embed runtime library search paths
+strip = true                                                        # Strip all symbols from final binary
